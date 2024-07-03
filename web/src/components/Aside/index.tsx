@@ -1,4 +1,5 @@
 import illustrationImg from '../../assets/images/illustration.svg'
+import './style.css'
 
 export function Aside() {
   return (
