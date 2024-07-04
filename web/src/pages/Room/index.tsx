@@ -1,6 +1,5 @@
-import firebase from 'firebase/compat/app';
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 
@@ -14,88 +13,28 @@ import { useAuth } from '../../hooks/useAuth'
 
 import { database } from '../../services/firebase'
 
-import { FirebaseQuestion, Question } from '../../types/FirebaseQuestions'
-
-import './styles.css'
 import { QuestionItem } from '../../components/QuestionItem';
 
-type RoomParams = {
-  id: string
-}
+import './styles.css'
+import { useRoom } from '../../hooks/useRoom'
 
 type QuestionParams = {
   textForm: string
 }
 
+type RoomParams = {
+  id: string
+}
+
 export function Room() {
   const { user } = useAuth();
-
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
+  const { questions, title } = useRoom(roomId!);
+
   const { register, handleSubmit, formState: { errors }, reset } = useForm<QuestionParams>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [questions, setQuestions] = useState<Question[]>([])
-  const [title, setTitle] = useState()
-
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${roomId}`);
-    const questionsRef = roomRef.child('questions');
-
-    const handleChangeTitle = (snapshot: firebase.database.DataSnapshot) => {
-      const databaseRoom = snapshot.val();
-      setTitle(databaseRoom.title)
-    }
-
-    const handleChildAdded = (snapshot: firebase.database.DataSnapshot) => {
-      const newQuestion: FirebaseQuestion = snapshot.val();
-      const newQuestionKey = snapshot.key as string;
-  
-      setQuestions((prevQuestions) => [
-        ...prevQuestions,
-        {
-          id: newQuestionKey,
-          ...newQuestion,
-        },
-      ]);
-    };
-  
-    const handleChildChanged = (snapshot: firebase.database.DataSnapshot) => {
-      const updatedQuestion: FirebaseQuestion = snapshot.val();
-      const updatedQuestionKey = snapshot.key as string;
-  
-      setQuestions((prevQuestions) =>
-        prevQuestions.map((question) =>
-          question.id === updatedQuestionKey
-            ? {
-                id: updatedQuestionKey,
-                ...updatedQuestion,
-              }
-            : question
-        )
-      );
-    };
-  
-    const handleChildRemoved = (snapshot: firebase.database.DataSnapshot) => {
-      const removedQuestionKey = snapshot.key as string;
-  
-      setQuestions((prevQuestions) =>
-        prevQuestions.filter((question) => question.id !== removedQuestionKey)
-      );
-    };
-
-    roomRef.once('value', handleChangeTitle);
-    questionsRef.on('child_added', handleChildAdded);
-    questionsRef.on('child_changed', handleChildChanged);
-    questionsRef.on('child_removed', handleChildRemoved);
-  
-    return () => {
-      questionsRef.off('child_added', handleChildAdded);
-      questionsRef.off('child_changed', handleChildChanged);
-      questionsRef.off('child_removed', handleChildRemoved);
-    };
-  }, [roomId]);
 
   const handleSendQuestion: SubmitHandler<QuestionParams> = async data => {
     setIsSubmitting(true);
