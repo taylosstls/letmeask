@@ -4,8 +4,8 @@ export type FirebaseQuestion = {
     avatar: string;
   };
   content: string;
-  isAnswered: boolean;
-  isHighlighted: boolean;
+  isAnswered?: boolean;
+  isHighlighted?: boolean;
 };
 
 export type FirebaseQuestions = Record<string, FirebaseQuestion>;

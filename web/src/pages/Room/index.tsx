@@ -17,6 +17,7 @@ import { database } from '../../services/firebase'
 import { FirebaseQuestion, Question } from '../../types/FirebaseQuestions'
 
 import './styles.css'
+import { QuestionItem } from '../../components/QuestionItem';
 
 type RoomParams = {
   id: string
@@ -173,7 +174,17 @@ export function Room() {
           </div>
         </form>
 
-        {JSON.stringify(questions)}
+        <div className="question-list">
+          {questions.map(question => {
+            return (
+              <QuestionItem
+                key={question.id}
+                content={question.content}
+                author={question.author}
+              />
+            )
+          })}
+        </div>
 
       </main>
     </div>
