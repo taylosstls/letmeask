@@ -15,6 +15,7 @@ import { Button } from '../../components/Button'
 import { FormValues } from '../../types/FormValues';
 
 import './style.css'
+import { toast } from 'react-toastify'
 
 export function Home() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export function Home() {
     navigate('/rooms/new');
   };
 
-  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormValues>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleJoinRoom: SubmitHandler<FormValues> = async data => {
@@ -36,23 +37,21 @@ export function Home() {
 
       const roomRef = await database.ref(`rooms/${data.roomId}`).get()
 
-      if(!roomRef.exists()) throw new Error('Código de sala inexistente');
+      if(!roomRef.exists()) {
+        toast.error("Ops! Código de sala inexistente", {
+          toastId: 'code-room-error'
+        });
+        throw new Error('Código de sala inexistente');
+      }
 
       navigate(`/rooms/${data.roomId}`);
 
     } catch (error) {
       console.error(error);
-      if (error instanceof Error) {
-        setError('roomId', {
-          type: 'manual',
-          message: error.message,
-        });
-      } else {
-        setError('roomId', {
-          type: 'manual',
-          message: 'Ocorreu um erro desconhecido',
-        });
-      }
+
+      toast.error("Não foi possível acessar a sala", {
+        toastId: 'code-room-access-error'
+      });
     } finally {
       setIsSubmitting(false);
     }

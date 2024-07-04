@@ -14,12 +14,13 @@ import { Button } from '../../components/Button';
 import { FormValues } from '../../types/FormValues';
 
 import './style.css';
+import { toast } from 'react-toastify';
 
 export function NewRoom() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormValues>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleCreateRoom: SubmitHandler<FormValues> = async data => {
@@ -39,17 +40,9 @@ export function NewRoom() {
 
     } catch (error) {
       console.error(error);
-      if (error instanceof Error) {
-        setError('roomId', {
-          type: 'manual',
-          message: error.message,
-        });
-      } else {
-        setError('roomId', {
-          type: 'manual',
-          message: 'Ocorreu um erro desconhecido',
-        });
-      }
+      toast.error("Não foi possível criar sua sala", {
+        toastId: 'code-create-error'
+      });
     } finally {
       setIsSubmitting(false);
     }

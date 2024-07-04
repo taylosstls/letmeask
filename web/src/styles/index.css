@@ -12,6 +12,7 @@
   --toastify-color-light: linear-gradient(135deg,#835afd,#e559f9);
   --toastify-text-color-light: #fff;
   --toastify-color-success: #fff;
+  --toastify-color-error: #fff;
   --toastify-font-family: 'Roboto', sans-serif;
 }
 
