@@ -42,11 +42,11 @@ export function Room() {
     const roomRef = database.ref(`rooms/${roomId}`);
     const questionsRef = roomRef.child('questions');
 
-    roomRef.once('value', room => {
-      const databaseRoom = room.val();
+    const handleChangeTitle = (snapshot: firebase.database.DataSnapshot) => {
+      const databaseRoom = snapshot.val();
       setTitle(databaseRoom.title)
-    });
-  
+    }
+
     const handleChildAdded = (snapshot: firebase.database.DataSnapshot) => {
       const newQuestion: FirebaseQuestion = snapshot.val();
       const newQuestionKey = snapshot.key as string;
@@ -83,7 +83,8 @@ export function Room() {
         prevQuestions.filter((question) => question.id !== removedQuestionKey)
       );
     };
-  
+
+    roomRef.once('value', handleChangeTitle);
     questionsRef.on('child_added', handleChildAdded);
     questionsRef.on('child_changed', handleChildChanged);
     questionsRef.on('child_removed', handleChildRemoved);
