@@ -30,6 +30,20 @@
           padding: 0 16px;
           background-color: #fff;
           border: 1px solid #a8a8b3;
+
+          &:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+          }
+        }
+
+        span {
+          color: #ef4444;
+          font-size: 12px;
+          display: block;
+          text-align: right;
+          padding-inline: 8px;
+          margin-top: 8px;
         }
 
         button {

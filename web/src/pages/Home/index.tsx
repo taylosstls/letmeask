@@ -6,9 +6,9 @@ import googleIconImg from '../../assets/images/google-icon.svg'
 
 import { Aside } from '../../components/Aside'
 import { Button } from '../../components/Button'
+import { useAuth } from '../../hooks/useAuth'
 
 import './style.css'
-import { useAuth } from '../../hooks/useAuth'
 
 export function Home() {
   const navigate = useNavigate();
