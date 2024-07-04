@@ -48,10 +48,6 @@ export function Home() {
 
     } catch (error) {
       console.error(error);
-
-      toast.error("Não foi possível acessar a sala", {
-        toastId: 'code-room-access-error'
-      });
     } finally {
       setIsSubmitting(false);
     }

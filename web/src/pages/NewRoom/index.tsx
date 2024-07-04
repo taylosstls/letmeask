@@ -40,7 +40,7 @@ export function NewRoom() {
 
     } catch (error) {
       console.error(error);
-      toast.error("Não foi possível criar sua sala", {
+      toast.error("Não utilize espaços em branco", {
         toastId: 'code-create-error'
       });
     } finally {

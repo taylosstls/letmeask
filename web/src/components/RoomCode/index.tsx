@@ -12,7 +12,7 @@ type RoomCodeProps = {
 export function RoomCode({ code = '' }: RoomCodeProps) {
   function copyToClipBoard() {
     navigator.clipboard.writeText(code)
-    toast.success("Código da sala copiado!", {
+    toast.success("Código copiado com sucesso!", {
       toastId: 'copy-room-code'
     });
   }
