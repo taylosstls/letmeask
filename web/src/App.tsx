@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home } from "./pages/Home";
 import { NewRoom } from "./pages/NewRoom";
 import { Room } from "./pages/Room";
+import { NotFound } from './pages/NotFound';
+
 import { AuthContextProvider } from './contexts/AuthContext';
 
 export default function App() {
@@ -19,8 +21,4 @@ export default function App() {
       </AuthContextProvider>
     </Router>
   )
-}
-
-function NotFound() {
-  return <h2>404 Not Found</h2>;
 }

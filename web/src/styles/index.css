@@ -8,6 +8,13 @@
   box-sizing: border-box;
 }
 
+:root {
+  --toastify-color-light: linear-gradient(135deg,#835afd,#e559f9);
+  --toastify-text-color-light: #fff;
+  --toastify-color-success: #fff;
+  --toastify-font-family: 'Roboto', sans-serif;
+}
+
 body {
   color: #29292e;
 }

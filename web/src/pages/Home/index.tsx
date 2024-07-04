@@ -1,12 +1,18 @@
-
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 import logoImg from '../../assets/images/logo.svg'
 import googleIconImg from '../../assets/images/google-icon.svg'
 
+import { database } from '../../services/firebase'
+import { useAuth } from '../../hooks/useAuth'
+
+import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { Aside } from '../../components/Aside'
 import { Button } from '../../components/Button'
-import { useAuth } from '../../hooks/useAuth'
+
+import { FormValues } from '../../types/FormValues';
 
 import './style.css'
 
@@ -18,6 +24,38 @@ export function Home() {
     if (!user) await signInWithGoogle()
 
     navigate('/rooms/new');
+  };
+
+  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormValues>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleJoinRoom: SubmitHandler<FormValues> = async data => {
+    setIsSubmitting(true);
+    try {
+      if (!data.roomId.trim()) throw new Error('Informe o código da sala');
+
+      const roomRef = await database.ref(`rooms/${data.roomId}`).get()
+
+      if(!roomRef.exists()) throw new Error('Código de sala inexistente');
+
+      navigate(`/rooms/${data.roomId}`);
+
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        setError('roomId', {
+          type: 'manual',
+          message: error.message,
+        });
+      } else {
+        setError('roomId', {
+          type: 'manual',
+          message: 'Ocorreu um erro desconhecido',
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -35,9 +73,23 @@ export function Home() {
 
           <div className='separator'>ou entre em uma sala</div>
 
-          <form action="">
-            <input type="text" placeholder='Digite o código da sala' />
-            <Button type='submit'>Entrar na sala</Button>
+          <form onSubmit={handleSubmit(handleJoinRoom)}>
+            <input
+              type="text"
+              placeholder='Digite o código da sala'
+              id="roomId" 
+              {...register('roomId', { required: 'Informe o código da sala' })} 
+              disabled={isSubmitting}
+            />
+            {errors.roomId && <span>{errors.roomId.message}</span>}
+
+            <Button type='submit' disabled={isSubmitting}>
+              {isSubmitting ? (
+                <LoadingSpinner />
+              ) : (
+                'Entrar na sala'
+              )}
+            </Button>
           </form>
         </div>
       </main>
