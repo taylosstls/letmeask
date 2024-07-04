@@ -64,9 +64,16 @@
         min-height: 130px;
       }
 
+      > span {
+        color: #ef4444;
+        font-size: 12px;
+        display: block;
+        text-align: right;
+        padding-inline: 8px;
+      }
+
       .form-footer {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         margin-top: 16px;
 
@@ -75,9 +82,12 @@
           align-items: center;
 
           img {
-            width: 32px;
-            height: 32px;
+            border: 2px solid #835AFD;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
           }
 
           span {

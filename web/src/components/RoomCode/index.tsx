@@ -3,15 +3,13 @@ import { toast } from 'react-toastify';
 
 import copyImg from '../../assets/images/copy.svg'
 
+import { FormValues } from '../../types/FormValues';
+
 import './styles.css'
 
-type RoomCodeProps = {
-  code: string;
-} 
-
-export function RoomCode({ code = '' }: RoomCodeProps) {
+export function RoomCode({ roomId = '' }: FormValues) {
   function copyToClipBoard() {
-    navigator.clipboard.writeText(code)
+    navigator.clipboard.writeText(roomId)
     toast.success("Código copiado com sucesso!", {
       toastId: 'copy-room-code'
     });
@@ -23,7 +21,7 @@ export function RoomCode({ code = '' }: RoomCodeProps) {
         <div>
           <img src={copyImg} alt="Copiar código da sala" />
         </div>
-        <span>Sala #{code}</span>
+        <span>Sala #{roomId}</span>
       </button>
 
     </>
