@@ -1,4 +1,4 @@
-type FirebaseQuestion = {
+export type FirebaseQuestion = {
   author: {
     name: string;
     avatar: string;
