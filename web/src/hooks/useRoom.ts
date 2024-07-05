@@ -3,10 +3,12 @@ import { useEffect, useState } from "react"
 
 import { FirebaseQuestion, Question } from "../types/FirebaseQuestions"
 import { database } from '../services/firebase';
+import { useAuth } from './useAuth';
 
 export function useRoom(roomId: string) {
+  const { user } = useAuth();
   const [questions, setQuestions] = useState<Question[]>([])
-  const [title, setTitle] = useState()
+  const [title, setTitle] = useState('')
 
   useEffect(() => {
     const roomRef = database.ref(`rooms/${roomId}`);
@@ -26,6 +28,8 @@ export function useRoom(roomId: string) {
         {
           id: newQuestionKey,
           ...newQuestion,
+          likeCount: Object.values(newQuestion.likes ?? {}).length,
+          likeId: Object.entries(newQuestion.likes ?? {}).find(([, like]) => like.authorId === user?.id)?.[0],
         },
       ]);
     };
@@ -40,6 +44,8 @@ export function useRoom(roomId: string) {
             ? {
                 id: updatedQuestionKey,
                 ...updatedQuestion,
+                likeCount: Object.values(updatedQuestion.likes ?? {}).length,
+                likeId: Object.entries(updatedQuestion.likes ?? {}).find(([, like]) => like.authorId === user?.id)?.[0],
               }
             : question
         )
@@ -64,7 +70,7 @@ export function useRoom(roomId: string) {
       questionsRef.off('child_changed', handleChildChanged);
       questionsRef.off('child_removed', handleChildRemoved);
     };
-  }, [roomId]);
+  }, [roomId, user?.id]);
 
   return { questions, title }
 }

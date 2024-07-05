@@ -12,7 +12,23 @@
 
   cursor: pointer;
   border: 0;
-  transition: filter .3s;
+  transition: all .3s;
+
+  img {
+    margin-right: 8px;
+  }
+
+  &.outlined {
+    background-color: #fff;
+    border: 1px solid #ea4335;
+    color: #ea4335;
+
+    &:not(:disabled):hover {
+      background-color: #ea4335;
+      color: #fff;
+      filter: brightness(1);
+    }
+  }
 
   &:not(:disabled):hover {
     filter: brightness(.9);

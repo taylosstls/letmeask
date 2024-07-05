@@ -1,7 +1,12 @@
+import { ReactNode } from "react";
 import { FirebaseQuestion } from "../../types/FirebaseQuestions";
 import './styles.css'
 
-export function QuestionItem({ author, content } : FirebaseQuestion) {
+type QuestionProps = {
+  children?: ReactNode;
+} & FirebaseQuestion;
+
+export function QuestionItem({ author, content, children } : QuestionProps) {
   return (
     <div className="question">
       <p>{content}</p>
@@ -10,7 +15,9 @@ export function QuestionItem({ author, content } : FirebaseQuestion) {
           <img src={author.avatar} alt={author.name} />
           <span>{author.name}</span>
         </div>
-        <div></div>
+        <div>
+          {children}
+        </div>
       </footer>
     </div>
   )

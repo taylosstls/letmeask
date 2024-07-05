@@ -36,13 +36,13 @@
       align-items: center;
 
       img {
+        border: 2px solid #e559f9;
         width: 32px;
         height: 32px;
         border-radius: 50%;
       }
 
       span {
-        margin-left: 8px;
         color: #737380;
         font-size: 14px;
       }
@@ -50,14 +50,14 @@
 
     > div {
       display: flex;
-      gap: 16px;
+      gap: 8px;
     }
 
     button {
       border: 0;
       background: transparent;
       cursor: pointer;
-      transition: filter 0.2s;
+      transition: all .3s;
 
       &.like-button {
         display: flex;
