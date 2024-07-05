@@ -1,5 +1,6 @@
 .question {
   background: #fefefe;
+  border: 1px solid transparent;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   padding: 24px;
@@ -74,6 +75,7 @@
       .user-info {
         img {
           border-color: #a3a3a3;
+          filter: grayscale(.75);
         }
         span {
           color: #737380;
