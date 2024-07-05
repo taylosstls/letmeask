@@ -7,7 +7,7 @@ import logoImg from '../../assets/images/logo.svg';
 import { database } from '../../services/firebase';
 import { useAuth } from '../../hooks/useAuth';
 
-import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { LoadingSpinner } from '../../components/Icons/LoadingSpinner';
 import { Aside } from '../../components/Aside';
 import { Button } from '../../components/Button';
 

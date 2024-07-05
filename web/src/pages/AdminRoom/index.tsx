@@ -4,11 +4,16 @@ import logoImg from '../../assets/images/logo.svg'
 
 import { Button } from '../../components/Button'
 import { RoomCode } from '../../components/RoomCode'
-
 import { QuestionItem } from '../../components/QuestionItem';
 
-import './styles.css'
 import { useRoom } from '../../hooks/useRoom';
+
+import { database } from '../../services/firebase';
+
+import './styles.css'
+import { useState } from 'react'
+import { Modal } from '../../components/Modal'
+import { Delete } from '../../components/Icons/Delete';
 
 type RoomParams = {
   id: string
@@ -19,6 +24,26 @@ export function AdminRoom() {
   const roomId = params.id;
 
   const { questions, title } = useRoom(roomId!);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState<string | null>(null);
+
+  function handleOpenModal(questionId: string) {
+    setQuestionToDelete(questionId);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsModalOpen(false);
+    setQuestionToDelete(null);
+  }
+
+  async function handleDeleteQuestion() {
+    if (questionToDelete) {
+      await database.ref(`rooms/${roomId}/questions/${questionToDelete}`).remove();
+      handleCloseModal();
+    }
+  }
 
   return ( 
     <div id="page-room">
@@ -48,13 +73,22 @@ export function AdminRoom() {
                 content={question.content}
                 author={question.author}
               >
-                
+                <button type="button" onClick={() => handleOpenModal(question.id)}>
+                  <Delete />
+                </button>
               </QuestionItem>
             )
           })}
         </div>
 
       </main>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleDeleteQuestion}
+        imgInfo={<Delete />}
+      />
     </div>
   )
 }

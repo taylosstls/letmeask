@@ -8,7 +8,7 @@ import googleIconImg from '../../assets/images/google-icon.svg'
 import { database } from '../../services/firebase'
 import { useAuth } from '../../hooks/useAuth'
 
-import { LoadingSpinner } from '../../components/LoadingSpinner'
+import { LoadingSpinner } from '../../components/Icons/LoadingSpinner'
 import { Aside } from '../../components/Aside'
 import { Button } from '../../components/Button'
 
