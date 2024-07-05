@@ -44,6 +44,13 @@ export function Home() {
         throw new Error('Código de sala inexistente');
       }
 
+      if(roomRef.val().closedAt) {
+        toast.error("Ops! Essa sessão já encerrou", {
+          toastId: 'room-session-ended'
+        });
+        throw new Error('Sessão encerrada');
+      }
+
       navigate(`/rooms/${data.roomId}`);
 
     } catch (error) {

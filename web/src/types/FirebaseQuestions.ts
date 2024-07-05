@@ -8,6 +8,7 @@ export type FirebaseQuestion = {
     avatar: string;
   };
   content: string;
+  sendedAt: string;
   isAnswered?: boolean;
   isHighlighted?: boolean;
   likes?: Record<string, FirebaseLike>;

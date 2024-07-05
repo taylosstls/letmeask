@@ -50,6 +50,7 @@ export function Room() {
         },
         isHighlighted: false,
         isAnswered: false,
+        sendedAt: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
       };
 
       await database.ref(`rooms/${roomId}/questions`).push(question)
@@ -131,6 +132,9 @@ export function Room() {
                 key={question.id}
                 content={question.content}
                 author={question.author}
+                sendedAt={question.sendedAt}
+                isAnswered={question.isAnswered}
+                isHighlighted={question.isHighlighted}
               >
                 <button
                   type='button'

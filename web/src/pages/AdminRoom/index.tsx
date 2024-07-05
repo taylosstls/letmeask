@@ -1,21 +1,23 @@
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 import logoImg from '../../assets/images/logo.svg'
+import { Answer } from '../../components/Icons/Answer';
+import { Close } from '../../components/Icons/Close';
+import { Check } from '../../components/Icons/Check';
+import { Delete } from '../../components/Icons/Delete';
 
 import { Button } from '../../components/Button'
 import { RoomCode } from '../../components/RoomCode'
 import { QuestionItem } from '../../components/QuestionItem';
+import { Modal } from '../../components/Modal'
 
 import { useRoom } from '../../hooks/useRoom';
 
 import { database } from '../../services/firebase';
 
 import './styles.css'
-import { useState } from 'react'
-import { Modal } from '../../components/Modal'
-import { Delete } from '../../components/Icons/Delete';
-import { Close } from '../../components/Icons/Close';
-import { toast } from 'react-toastify';
 
 type RoomParams = {
   id: string
@@ -52,7 +54,7 @@ export function AdminRoom() {
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
-      endedAt: new Date(),
+      closedAt: new Date(),
     })
 
     toast.success("Sala encerrada com sucesso!", {
@@ -67,6 +69,18 @@ export function AdminRoom() {
       await database.ref(`rooms/${roomId}/questions/${questionToDelete}`).remove();
       handleCloseModal();
     }
+  }
+
+  async function handleCheckQuestionAsAnswered(questionId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isAnswered: true
+    })
+  }
+ 
+  async function handleQuestionAsHighLight(questionId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isHighlighted: true
+    })
   }
 
   return ( 
@@ -96,8 +110,29 @@ export function AdminRoom() {
                 key={question.id}
                 content={question.content}
                 author={question.author}
+                sendedAt={question.sendedAt}
+                isAnswered={question.isAnswered}
+                isHighlighted={question.isHighlighted}
               >
-                <button type="button" onClick={() => handleOpenModal(question.id)}>
+                <button
+                  type="button"
+                  aria-label='Dar destaque'
+                  onClick={() => handleQuestionAsHighLight(question.id)}
+                >
+                  <Check />
+                </button>
+                <button
+                  type="button"
+                  aria-label='Marcar pergunta como respondida'
+                  onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                  >
+                  <Answer />
+                </button>
+                <button
+                  type="button"
+                  aria-label='Remover pergunta'
+                  onClick={() => handleOpenModal(question.id)}
+                >
                   <Delete />
                 </button>
               </QuestionItem>
