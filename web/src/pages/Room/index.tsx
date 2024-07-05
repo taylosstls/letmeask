@@ -126,7 +126,21 @@ export function Room() {
         </form>
 
         <div className="question-list">
-          {questions.map(question => {
+          {questions
+          .sort((a, b) => {
+            // Primeiro, ordena pelas destacadas que não foram respondidas
+            if (a.isHighlighted && !a.isAnswered && (!b.isHighlighted || b.isAnswered)) return -1;
+            if (b.isHighlighted && !b.isAnswered && (!a.isHighlighted || a.isAnswered)) return 1;
+            // Depois, ordena pelas não destacadas e não respondidas
+            if (!a.isHighlighted && !a.isAnswered && (b.isHighlighted || b.isAnswered)) return -1;
+            if (!b.isHighlighted && !b.isAnswered && (a.isHighlighted || a.isAnswered)) return 1;
+            // Por último, ordena pelas respondidas
+            if (a.isAnswered && !b.isAnswered) return 1;
+            if (!a.isAnswered && b.isAnswered) return -1;
+            // Mantém a ordem original se as condições acima não se aplicarem
+            return 0;
+          })
+          .map(question => {
             return (
               <QuestionItem
                 key={question.id}
