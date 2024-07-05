@@ -8,7 +8,7 @@ type ModalAction = {
 
 type ModalProps = {
   isOpen: boolean;
-  onClose: ModalAction;
+  onClose?: ModalAction;
   onConfirm?: ModalAction;
   imgInfo?: ReactNode;
   title: string;

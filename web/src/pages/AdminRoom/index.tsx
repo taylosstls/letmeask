@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import logoImg from '../../assets/images/logo.svg'
 
@@ -14,18 +14,22 @@ import './styles.css'
 import { useState } from 'react'
 import { Modal } from '../../components/Modal'
 import { Delete } from '../../components/Icons/Delete';
+import { Close } from '../../components/Icons/Close';
+import { toast } from 'react-toastify';
 
 type RoomParams = {
   id: string
 }
 
 export function AdminRoom() {
+  const navigate = useNavigate();
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
   const { questions, title } = useRoom(roomId!);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEndRoomModalOpen, setIsEndRoomModalOpen] = useState(false);
   const [questionToDelete, setQuestionToDelete] = useState<string | null>(null);
 
   function handleOpenModal(questionId: string) {
@@ -36,6 +40,26 @@ export function AdminRoom() {
   function handleCloseModal() {
     setIsModalOpen(false);
     setQuestionToDelete(null);
+  }
+
+  function handleOpenEndRoomModal() {
+    setIsEndRoomModalOpen(true);
+  }
+  
+  function handleCloseEndRoomModal() {
+    setIsEndRoomModalOpen(false);
+  }
+
+  async function handleEndRoom() {
+    await database.ref(`rooms/${roomId}`).update({
+      endedAt: new Date(),
+    })
+
+    toast.success("Sala encerrada com sucesso!", {
+      toastId: 'close-room-session'
+    });
+    
+    navigate('/');
   }
 
   async function handleDeleteQuestion() {
@@ -52,7 +76,7 @@ export function AdminRoom() {
           <img src={logoImg} alt="Logo LetMeAsk" />
           <div>
             <RoomCode roomId={roomId!} />
-            <Button isOutlined>Encerrar sala</Button>
+            <Button isOutlined onClick={handleOpenEndRoomModal}>Encerrar sala</Button>
           </div>
         </div>
       </header>
@@ -90,6 +114,15 @@ export function AdminRoom() {
         isOpen={isModalOpen}
         onClose={{ handler: handleCloseModal, buttonText: 'Cancelar' }}
         onConfirm={{ handler: handleDeleteQuestion, buttonText: 'Sim, excluir'}}
+      />
+
+      <Modal
+        imgInfo={<Close />}
+        title="Encerrar Sala"
+        description="Tem certeza que você deseja encerrar esta sala?"
+        isOpen={isEndRoomModalOpen}
+        onClose={{ handler: handleCloseEndRoomModal, buttonText: 'Cancelar' }}
+        onConfirm={{ handler: handleEndRoom, buttonText: 'Sim, encerrar' }}
       />
     </div>
   )
