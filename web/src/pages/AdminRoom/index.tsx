@@ -84,10 +84,12 @@ export function AdminRoom() {
       </main>
 
       <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleDeleteQuestion}
         imgInfo={<Delete />}
+        title='Excluir Pergunta'
+        description='Tem certeza que você deseja excluir esta pergunta?'
+        isOpen={isModalOpen}
+        onClose={{ handler: handleCloseModal, buttonText: 'Cancelar' }}
+        onConfirm={{ handler: handleDeleteQuestion, buttonText: 'Sim, excluir'}}
       />
     </div>
   )
