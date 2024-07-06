@@ -48,7 +48,7 @@ aside {
         bottom: 56px;
         animation: scrollAnimation 2s linear infinite;
       }
-  }
+    }
   }
 }
 
@@ -66,11 +66,11 @@ aside {
     }
 
     img {
-        max-width: 220px;
-        &.scrollfinger-mob {
-          max-height: 40px;
-          animation: scrollAnimation 2s linear infinite;
-        }
+      max-width: 220px;
+      &.scrollfinger-mob {
+        max-height: 40px;
+        animation: scrollAnimation 2s linear infinite;
+      }
     }
   }
 }

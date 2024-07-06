@@ -18,6 +18,7 @@ import { useRoom } from '../../hooks/useRoom';
 import { database } from '../../services/firebase';
 
 import './styles.css';
+import { NoQuestions } from '../../components/NoQuestions';
 
 type RoomParams = {
   id: string;
@@ -108,54 +109,58 @@ export function AdminRoom() {
         </div>
 
         <div className="question-list">
-          {questions
-            .sort((a, b) => {
-              // Primeiro, ordena pelas destacadas que não foram respondidas
-              if (a.isHighlighted && !a.isAnswered && (!b.isHighlighted || b.isAnswered)) return -1;
-              if (b.isHighlighted && !b.isAnswered && (!a.isHighlighted || a.isAnswered)) return 1;
-              // Depois, ordena pelas não destacadas e não respondidas
-              if (!a.isHighlighted && !a.isAnswered && (b.isHighlighted || b.isAnswered)) return -1;
-              if (!b.isHighlighted && !b.isAnswered && (a.isHighlighted || a.isAnswered)) return 1;
-              // Por último, ordena pelas respondidas
-              if (a.isAnswered && !b.isAnswered) return 1;
-              if (!a.isAnswered && b.isAnswered) return -1;
-              // Mantém a ordem original se as condições acima não se aplicarem
-              return 0;
-            })
-            .map((question) => {
-              return (
-                <QuestionItem
-                  key={question.id}
-                  content={question.content}
-                  author={question.author}
-                  sendedAt={question.sendedAt}
-                  isAnswered={question.isAnswered}
-                  isHighlighted={question.isHighlighted}
-                >
-                  {!question.isAnswered && (
-                    <>
-                      <button
-                        type="button"
-                        aria-label="Dar destaque"
-                        onClick={() => handleQuestionAsHighLight(question.id)}
-                      >
-                        <Check />
-                      </button>
-                      <button
-                        type="button"
-                        aria-label="Marcar pergunta como respondida"
-                        onClick={() => handleCheckQuestionAsAnswered(question.id)}
-                      >
-                        <Answer />
-                      </button>
-                    </>
-                  )}
-                  <button type="button" aria-label="Remover pergunta" onClick={() => handleOpenModal(question.id)}>
-                    <Delete />
-                  </button>
-                </QuestionItem>
-              );
-            })}
+          {questions.length === 0 ? (
+            <NoQuestions>Envie o código desta sala para seus amigos e comece a responder perguntas!</NoQuestions>
+          ) : (
+            questions
+              .sort((a, b) => {
+                // Primeiro, ordena pelas destacadas que não foram respondidas
+                if (a.isHighlighted && !a.isAnswered && (!b.isHighlighted || b.isAnswered)) return -1;
+                if (b.isHighlighted && !b.isAnswered && (!a.isHighlighted || a.isAnswered)) return 1;
+                // Depois, ordena pelas não destacadas e não respondidas
+                if (!a.isHighlighted && !a.isAnswered && (b.isHighlighted || b.isAnswered)) return -1;
+                if (!b.isHighlighted && !b.isAnswered && (a.isHighlighted || a.isAnswered)) return 1;
+                // Por último, ordena pelas respondidas
+                if (a.isAnswered && !b.isAnswered) return 1;
+                if (!a.isAnswered && b.isAnswered) return -1;
+                // Mantém a ordem original se as condições acima não se aplicarem
+                return 0;
+              })
+              .map((question) => {
+                return (
+                  <QuestionItem
+                    key={question.id}
+                    content={question.content}
+                    author={question.author}
+                    sendedAt={question.sendedAt}
+                    isAnswered={question.isAnswered}
+                    isHighlighted={question.isHighlighted}
+                  >
+                    {!question.isAnswered && (
+                      <>
+                        <button
+                          type="button"
+                          aria-label="Dar destaque"
+                          onClick={() => handleQuestionAsHighLight(question.id)}
+                        >
+                          <Check />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Marcar pergunta como respondida"
+                          onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                        >
+                          <Answer />
+                        </button>
+                      </>
+                    )}
+                    <button type="button" aria-label="Remover pergunta" onClick={() => handleOpenModal(question.id)}>
+                      <Delete />
+                    </button>
+                  </QuestionItem>
+                );
+              })
+          )}
         </div>
       </main>
 

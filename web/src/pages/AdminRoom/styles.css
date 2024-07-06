@@ -125,6 +125,8 @@
     }
 
     & main {
+      display: flex;
+      flex-direction: column;
       & .room-title {
         margin: 24px 0 12px;
         h1 {
@@ -140,5 +142,4 @@
       }
     }
   }
-
 }

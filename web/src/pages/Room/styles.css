@@ -138,7 +138,10 @@
         }
       }
     }
+
     & main {
+      display: flex;
+      flex-direction: column;
       & form {
         margin-top: 24px;
         textarea {

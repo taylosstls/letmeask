@@ -1,0 +1,30 @@
+.no-questions {
+  margin: 64px auto;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+
+  img {
+    max-width: 150px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    color: #29292e;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  p {
+    color: #737380;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+  }
+}

@@ -170,12 +170,12 @@
     p {
       font-size: 14px;
     }
-    
+
     & footer {
       padding-top: 16px;
       padding-inline: 4px;
       > div {
-          gap: 8px;
+        gap: 8px;
       }
       button {
         font-size: 14px;
@@ -186,7 +186,7 @@
       }
       & .user-info {
         span {
-            font-size: 12px;
+          font-size: 12px;
         }
       }
     }

@@ -94,7 +94,6 @@
       width: 40px;
       height: 40px;
     }
-
   }
 
   .modal-actions {
@@ -103,10 +102,10 @@
     .btn {
       font-size: 14px;
       height: 40px;
-      &.btn-cancel, &.btn-confirm {
+      &.btn-cancel,
+      &.btn-confirm {
         width: 180px;
       }
-
     }
   }
 }
