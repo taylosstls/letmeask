@@ -2,23 +2,23 @@
   height: 40px;
   border-radius: 8px;
   overflow: hidden;
-  
-  background: #FFF;
+
+  background: #fff;
   border: 1px solid #835afd;
   cursor: pointer;
 
   display: flex;
-  transition: all .3s;
+  transition: all 0.3s;
 
   &:hover {
     div {
-      filter: brightness(.95);
+      filter: brightness(0.95);
     }
   }
-  
+
   &:active {
     div {
-      filter: brightness(.8);
+      filter: brightness(0.8);
     }
   }
 
@@ -35,7 +35,7 @@
     display: block;
     align-self: center;
     flex: 1;
-    background: #FFF;
+    background: #fff;
     padding: 0 16px 0 12px;
     width: 120px;
     font-size: 14px;

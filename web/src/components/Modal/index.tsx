@@ -26,11 +26,18 @@ export function Modal({ isOpen, onClose, onConfirm, imgInfo, title, description 
         <p>{description}</p>
         {(onClose || onConfirm) && (
           <div className="modal-actions">
-            {onClose && <button className='btn btn-cancel' onClick={onClose.handler}>{onClose.buttonText}</button>}
-            {onConfirm && <button className='btn btn-confirm' onClick={onConfirm?.handler}>{onConfirm.buttonText}</button>}
+            {onClose && (
+              <button className="btn btn-cancel" onClick={onClose.handler}>
+                {onClose.buttonText}
+              </button>
+            )}
+            {onConfirm && (
+              <button className="btn btn-confirm" onClick={onConfirm?.handler}>
+                {onConfirm.buttonText}
+              </button>
+            )}
           </div>
-          )
-        }
+        )}
       </div>
     </div>
   );

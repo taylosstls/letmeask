@@ -1,27 +1,27 @@
-import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import logoImg from '../../assets/images/logo.svg'
+import logoImg from '../../assets/images/logo.svg';
 import { Answer } from '../../components/Icons/Answer';
 import { Close } from '../../components/Icons/Close';
 import { Check } from '../../components/Icons/Check';
 import { Delete } from '../../components/Icons/Delete';
 
-import { Button } from '../../components/Button'
-import { RoomCode } from '../../components/RoomCode'
+import { Button } from '../../components/Button';
+import { RoomCode } from '../../components/RoomCode';
 import { QuestionItem } from '../../components/QuestionItem';
-import { Modal } from '../../components/Modal'
+import { Modal } from '../../components/Modal';
 
 import { useRoom } from '../../hooks/useRoom';
 
 import { database } from '../../services/firebase';
 
-import './styles.css'
+import './styles.css';
 
 type RoomParams = {
-  id: string
-}
+  id: string;
+};
 
 export function AdminRoom() {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export function AdminRoom() {
   function handleOpenEndRoomModal() {
     setIsEndRoomModalOpen(true);
   }
-  
+
   function handleCloseEndRoomModal() {
     setIsEndRoomModalOpen(false);
   }
@@ -55,12 +55,12 @@ export function AdminRoom() {
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
       closedAt: new Date(),
-    })
-
-    toast.success("Sala encerrada com sucesso!", {
-      toastId: 'close-room-session'
     });
-    
+
+    toast.success('Sala encerrada com sucesso!', {
+      toastId: 'close-room-session',
+    });
+
     navigate('/');
   }
 
@@ -73,100 +73,99 @@ export function AdminRoom() {
 
   async function handleCheckQuestionAsAnswered(questionId: string) {
     await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-      isAnswered: true
-    })
-  }
- 
-  async function handleQuestionAsHighLight(questionId: string) {
-    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-      isHighlighted: true
-    })
+      isAnswered: true,
+    });
   }
 
-  return ( 
+  async function handleQuestionAsHighLight(questionId: string) {
+    await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isHighlighted: true,
+    });
+  }
+
+  return (
     <div id="page-room">
       <header>
         <div className="content">
           <img src={logoImg} alt="Logo LetMeAsk" />
           <div>
             <RoomCode roomId={roomId!} />
-            <Button isOutlined onClick={handleOpenEndRoomModal}>Encerrar sala</Button>
+            <Button isOutlined onClick={handleOpenEndRoomModal}>
+              Encerrar sala
+            </Button>
           </div>
         </div>
       </header>
 
-      <main className='content'>
+      <main className="content">
         <div className="room-title">
           <h1>Sala: {title}</h1>
           {questions.length > 0 && (
-            <span>{questions.length} {questions.length === 1 ? 'pergunta' : 'perguntas'}</span>
+            <span>
+              {questions.length} {questions.length === 1 ? 'pergunta' : 'perguntas'}
+            </span>
           )}
         </div>
 
         <div className="question-list">
           {questions
-          .sort((a, b) => {
-            // Primeiro, ordena pelas destacadas que não foram respondidas
-            if (a.isHighlighted && !a.isAnswered && (!b.isHighlighted || b.isAnswered)) return -1;
-            if (b.isHighlighted && !b.isAnswered && (!a.isHighlighted || a.isAnswered)) return 1;
-            // Depois, ordena pelas não destacadas e não respondidas
-            if (!a.isHighlighted && !a.isAnswered && (b.isHighlighted || b.isAnswered)) return -1;
-            if (!b.isHighlighted && !b.isAnswered && (a.isHighlighted || a.isAnswered)) return 1;
-            // Por último, ordena pelas respondidas
-            if (a.isAnswered && !b.isAnswered) return 1;
-            if (!a.isAnswered && b.isAnswered) return -1;
-            // Mantém a ordem original se as condições acima não se aplicarem
-            return 0;
-          })
-          .map(question => {
-            return (
-              <QuestionItem
-                key={question.id}
-                content={question.content}
-                author={question.author}
-                sendedAt={question.sendedAt}
-                isAnswered={question.isAnswered}
-                isHighlighted={question.isHighlighted}
-              >
-                {!question.isAnswered && (
-                <>
-                  <button
-                    type="button"
-                    aria-label='Dar destaque'
-                    onClick={() => handleQuestionAsHighLight(question.id)}
-                  >
-                    <Check />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label='Marcar pergunta como respondida'
-                    onClick={() => handleCheckQuestionAsAnswered(question.id)}
-                    >
-                    <Answer />
-                  </button>
-                </>
-                )}
-                <button
-                  type="button"
-                  aria-label='Remover pergunta'
-                  onClick={() => handleOpenModal(question.id)}
+            .sort((a, b) => {
+              // Primeiro, ordena pelas destacadas que não foram respondidas
+              if (a.isHighlighted && !a.isAnswered && (!b.isHighlighted || b.isAnswered)) return -1;
+              if (b.isHighlighted && !b.isAnswered && (!a.isHighlighted || a.isAnswered)) return 1;
+              // Depois, ordena pelas não destacadas e não respondidas
+              if (!a.isHighlighted && !a.isAnswered && (b.isHighlighted || b.isAnswered)) return -1;
+              if (!b.isHighlighted && !b.isAnswered && (a.isHighlighted || a.isAnswered)) return 1;
+              // Por último, ordena pelas respondidas
+              if (a.isAnswered && !b.isAnswered) return 1;
+              if (!a.isAnswered && b.isAnswered) return -1;
+              // Mantém a ordem original se as condições acima não se aplicarem
+              return 0;
+            })
+            .map((question) => {
+              return (
+                <QuestionItem
+                  key={question.id}
+                  content={question.content}
+                  author={question.author}
+                  sendedAt={question.sendedAt}
+                  isAnswered={question.isAnswered}
+                  isHighlighted={question.isHighlighted}
                 >
-                  <Delete />
-                </button>
-              </QuestionItem>
-            )
-          })}
+                  {!question.isAnswered && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label="Dar destaque"
+                        onClick={() => handleQuestionAsHighLight(question.id)}
+                      >
+                        <Check />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Marcar pergunta como respondida"
+                        onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                      >
+                        <Answer />
+                      </button>
+                    </>
+                  )}
+                  <button type="button" aria-label="Remover pergunta" onClick={() => handleOpenModal(question.id)}>
+                    <Delete />
+                  </button>
+                </QuestionItem>
+              );
+            })}
         </div>
-
       </main>
 
       <Modal
         imgInfo={<Delete />}
-        title='Excluir Pergunta'
-        description='Tem certeza que você deseja excluir esta pergunta?'
+        title="Excluir Pergunta"
+        description="Tem certeza que você deseja excluir esta pergunta?"
         isOpen={isModalOpen}
         onClose={{ handler: handleCloseModal, buttonText: 'Cancelar' }}
-        onConfirm={{ handler: handleDeleteQuestion, buttonText: 'Sim, excluir'}}
+        onConfirm={{ handler: handleDeleteQuestion, buttonText: 'Sim, excluir' }}
       />
 
       <Modal
@@ -178,5 +177,5 @@ export function AdminRoom() {
         onConfirm={{ handler: handleEndRoom, buttonText: 'Sim, encerrar' }}
       />
     </div>
-  )
+  );
 }

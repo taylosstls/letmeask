@@ -1,17 +1,17 @@
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
-import copyImg from '../../assets/images/copy.svg'
+import copyImg from '../../assets/images/copy.svg';
 
 import { FormValues } from '../../types/FormValues';
 
-import './styles.css'
+import './styles.css';
 
 export function RoomCode({ roomId = '' }: FormValues) {
   function copyToClipBoard() {
-    navigator.clipboard.writeText(roomId)
-    toast.success("Código copiado com sucesso!", {
-      toastId: 'copy-room-code'
+    navigator.clipboard.writeText(roomId);
+    toast.success('Código copiado com sucesso!', {
+      toastId: 'copy-room-code',
     });
   }
 
@@ -23,7 +23,6 @@ export function RoomCode({ roomId = '' }: FormValues) {
         </div>
         <span>Sala #{roomId}</span>
       </button>
-
     </>
-  )
+  );
 }

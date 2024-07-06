@@ -1,5 +1,5 @@
-import illustrationImg from '../../assets/images/illustration.svg'
-import './style.css'
+import illustrationImg from '../../assets/images/illustration.svg';
+import './style.css';
 
 export function Aside() {
   return (
@@ -8,5 +8,5 @@ export function Aside() {
       <strong>Crie salas de Q&amp;A ao-vivo</strong>
       <p>Tire as dúvidas da sua audiência em tempo-real</p>
     </aside>
-  )
+  );
 }

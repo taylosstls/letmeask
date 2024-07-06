@@ -1,12 +1,10 @@
-import { ComponentProps } from "react"
-import './style.css'
+import { ComponentProps } from 'react';
+import './style.css';
 
 type ButtonProps = ComponentProps<'button'> & {
-  isOutlined?: boolean
-}
+  isOutlined?: boolean;
+};
 
-export function Button({ isOutlined = false, ...props}: ButtonProps) {
-  return (
-    <button className={`button ${isOutlined && 'outlined'}`} {...props} />
-  )
+export function Button({ isOutlined = false, ...props }: ButtonProps) {
+  return <button className={`button ${isOutlined && 'outlined'}`} {...props} />;
 }

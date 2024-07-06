@@ -2,6 +2,7 @@
   header {
     padding: 24px;
     border-bottom: 1px solid #e2e2e2;
+    background-color: #fff;
 
     .content {
       max-width: 1120px;
@@ -34,6 +35,8 @@
       margin: 32px 0 24px;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
 
       h1 {
         font-family: 'Poppins', sans-serif;
@@ -43,11 +46,10 @@
       }
 
       span {
-        margin-left: 16px;
         background: #e559f9;
         border-radius: 9999px;
         padding: 8px 16px;
-        color: #FFF;
+        color: #fff;
         font-weight: 500;
         font-size: 14px;
       }
@@ -63,7 +65,7 @@
         align-items: center;
 
         img {
-          border: 2px solid #835AFD;
+          border: 2px solid #835afd;
           width: 42px;
           height: 42px;
           border-radius: 50%;
@@ -87,7 +89,7 @@
         button {
           background: transparent;
           border: 0;
-          color: #835AFD;
+          color: #835afd;
           text-decoration: underline;
           font-size: 14px;
           font-weight: 500;
@@ -100,4 +102,49 @@
       margin-top: 32px;
     }
   }
+}
+
+@media (max-width: 767px) {
+  #page-room {
+    header {
+      .content {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  #page-room {
+    & header {
+      & .content {
+        & > div {
+          width: 100%;
+          button {
+            &.room-code {
+              flex: 1;
+            }
+          }
+        }
+      }
+    }
+
+    & main {
+      & .room-title {
+        margin: 24px 0 12px;
+        h1 {
+          font-size: 16px;
+        }
+        span {
+          padding: 4px 12px;
+        }
+      }
+
+      .question-list {
+        margin-top: 24px;
+      }
+    }
+  }
+
 }
