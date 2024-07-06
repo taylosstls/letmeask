@@ -52,7 +52,7 @@ export function NewRoom() {
   };
 
   return (
-    <div id="page-auth">
+    <div id="page-auth" className="new-room">
       <Aside />
 
       <main>

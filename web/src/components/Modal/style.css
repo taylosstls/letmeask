@@ -80,3 +80,33 @@
     color: #fefefe;
   }
 }
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 32px 24px;
+    max-width: calc(100% - 48px);
+
+    p {
+      font-size: 14px;
+    }
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+    margin-top: 32px;
+    .btn {
+      font-size: 14px;
+      height: 40px;
+      &.btn-cancel, &.btn-confirm {
+        width: 180px;
+      }
+
+    }
+  }
+}

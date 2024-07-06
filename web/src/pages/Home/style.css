@@ -100,6 +100,7 @@
   #page-auth {
     flex-direction: column;
     main {
+      min-height: 100vh;
       padding: 60px 40px;
     }
   }
